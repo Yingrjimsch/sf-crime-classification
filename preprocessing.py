@@ -50,11 +50,12 @@ L = ['year', 'month', 'day']
 date_gen = (getattr(datetimes.dt, i).rename(i) for i in L)
 df_temp_data_0 = df_temp_data_0.join(pd.concat(date_gen, axis=1))
 
+"""
 for i in X_df.iterrows():
     j = df_temp_data_0[df_temp_data_0['year'] == X_df['year'][i] and df_temp_data_0['month']== X_df['month'][i] and df_temp_data_0['day']==X_df['day'][i]]
     print(j)
 
 X_df = pd.merge(X_df, df_temp_data_0, how='inner', left_on=['year','month','day'], right_on=['year','month','day'])
-
+"""
 with pd.option_context('display.max_columns', None):  # more options can be specified also
     print(X_df)
