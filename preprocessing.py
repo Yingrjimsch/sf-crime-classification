@@ -31,7 +31,7 @@ data_new = { "DayOfWeek": weekdays[0], "Weekend": weekends,
             "PdDistrict": pdDistricts[0], "Address": addresses,
             "X": df_train_origin["X"], "Y":df_train_origin["Y"] }
 X_df = pd.DataFrame(data_new)
-L = ['year', 'month', 'day', 'quarter', 'hour']
+L = ['year', 'month', 'quarter', 'hour', 'date']
 date_gen = (getattr(datetimes.dt, i).rename(i) for i in L)
 X_df = X_df.join(pd.concat(date_gen, axis=1))
 
@@ -45,17 +45,11 @@ df_temp_data_4 = pd.read_csv("2011-2012.csv")[['datetime', 'temp', 'conditions']
 df_temp_data_5 = pd.read_csv("2013-2014.csv")[['datetime', 'temp', 'conditions']]
 df_temp_data_6 = pd.read_csv("2015.csv")[['datetime', 'temp', 'conditions']]
 df_temp_data_0 = df_temp_data_0.append(df_temp_data_1, ignore_index = True).append(df_temp_data_2, ignore_index = True).append(df_temp_data_3, ignore_index = True).append(df_temp_data_4, ignore_index = True).append(df_temp_data_5, ignore_index = True).append(df_temp_data_6, ignore_index = True)
+X_df['date'] = X_df['date'].astype(str)
+df_temp_data_0['datetime'] = df_temp_data_0['datetime'].astype(str)
+X_df = pd.merge(X_df, df_temp_data_0, how='left', left_on='date', right_on='datetime')
+X_df.drop(['date', 'datetime'], axis=1)
 
-L = ['year', 'month', 'day']
-date_gen = (getattr(datetimes.dt, i).rename(i) for i in L)
-df_temp_data_0 = df_temp_data_0.join(pd.concat(date_gen, axis=1))
-
-"""
-for i in X_df.iterrows():
-    j = df_temp_data_0[df_temp_data_0['year'] == X_df['year'][i] and df_temp_data_0['month']== X_df['month'][i] and df_temp_data_0['day']==X_df['day'][i]]
-    print(j)
-
-X_df = pd.merge(X_df, df_temp_data_0, how='inner', left_on=['year','month','day'], right_on=['year','month','day'])
-"""
 with pd.option_context('display.max_columns', None):  # more options can be specified also
     print(X_df)
+
