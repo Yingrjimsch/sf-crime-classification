@@ -69,7 +69,7 @@ def preprocessing():
     X_df['date'] = X_df['date'].astype(str)
     df_temp_data_0['datetime'] = df_temp_data_0['datetime'].astype(str)
     X_df = pd.merge(X_df, df_temp_data_0, how='left', left_on='date', right_on='datetime')
-    X_df.drop(['date', 'datetime'], axis=1)
+    X_df = X_df.drop(['date', 'datetime'], axis=1)
     
     
     df_conditions = pd.unique(X_df["conditions"])
