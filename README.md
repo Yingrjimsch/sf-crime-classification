@@ -80,8 +80,8 @@ Welche Features zeigen Relevanz; Unausgeglichenheit der Y-daten -> balancieren
     * Why: Random Forest seemed a good fit to predict and evaluate our data and can have similar results to a Neural Network
 * **Classifier 2**
   * Support Vector Machine
-    * Characteristics:
-    * Why:
+    * Characteristics: 
+    * Why: 
 * **Classifier 3**
   * Neural Network
     * Characteristics:
@@ -92,7 +92,7 @@ Welche Features zeigen Relevanz; Unausgeglichenheit der Y-daten -> balancieren
 * **Classifier 1**
   * 27 depth seemed inefficient. so we tried decreasing the depth to see which depth seemed best. The score seemed best with a depth of 21
 * **Classifier 2**
-  * 
+  * The Support Vector Machine turned out to be a failure. It processed and evaluated data for two days, in the end we canceled the process. We tried to reduce the data to 5000. 
 * **Classifier 3**
   * 
 
@@ -101,6 +101,6 @@ Welche Features zeigen Relevanz; Unausgeglichenheit der Y-daten -> balancieren
 * **Classifier 1**
   * In the end the random forest was inferior to our NN solution. We could have probably gone to a similiar score with more estimator trees, but that would have taken a longer processing time that a Neural Network could achieve.
 * **Classifier 2**
-  * 
+  * The Support Vector Machines final loss score was somewhere between 5.0-5.6. In the end we decided to give up on the Model.
 * **Classifier 3**
   *
