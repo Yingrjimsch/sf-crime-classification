@@ -59,17 +59,15 @@ But what are suitable numerical values? Can features be split up to extract new 
 Should individual features be combined to obtain the greatest benefit?
 Or could even additional features (e.g. from the web) be added?
 
-* Entfernen von Description und Resolution, da nur in den Trainingsdaten vorhanden.
-Nutzlos um gutes Testergebnis zu erhalten
-* Visualisierung der Daten -> Einfügen einiger Plots zur Visualisierung
-Welche Features zeigen Relevanz; Unausgeglichenheit der Y-daten -> balancieren
-* Clustering der X-Y Daten (KMeans)
-* Aussplitten der Dates in year, month, quarter, hour, minute
-* Zusätzliches binäres Feature ob Wochentag oder am Wochenende
-* PdDistricts werden in binäre Spalten ufgeteilt
-* Addressen werden binär aufgeteilt, ob Block oder Strasse
-* Hinzunehmen von wetterdaten: temp und?
-* Final resultieren 22 Features um zu trainieren
+* We removed the description and resolution, because it is only available in the training data. This makes the features useless for a good test result.
+* We visualtized the data with different plots (e.g. Bar plots, seaborn heatmaps, Wordcloud). With this we could see which features have the most relevance. We could also see faulty Y data and balance them.
+* Clustering of X andv Y Data (KMeans) in different district clusters.
+* Split date in year, month, quarter, hour, minute
+* Additional binary feature if weekday or weekend
+* PdDistricts are split into binary columns.
+* In the USA, addresses get categorized in different blocks or streets. Therefore we split this data binary as well.
+* We added weather data (temperature and weather conditions)
+* Finally we had 22 features to use for training
 * 
 
 
