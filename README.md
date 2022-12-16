@@ -74,37 +74,33 @@ Welche Features zeigen Relevanz; Unausgeglichenheit der Y-daten -> balancieren
 
 
 ### Model Selection
-* Classifier 1
+* **Classifier 1**
   * RandomForest
     * Characteristics: To test the RandomForest for our data we chose a max depth of 27 (for each feature one depth deeper) and a total of 150 trees to go over the data.
     * Why: Random Forest seemed a good fit to predict and evaluate our data and can have similar results to a Neural Network
-* Classifier 2 
+* **Classifier 2**
   * Support Vector Machine
     * Characteristics:
     * Why:
-* Classifier 3
+* **Classifier 3**
   * Neural Network
-    * Characteristics:
-    * Why:
-* Classifier 4
-  * Generative Adversarial Net (GAN)
     * Characteristics:
     * Why:
   
 ### Training the Model
 
-* Classifier 1
+* **Classifier 1**
   * 27 depth seemed inefficient. so we tried decreasing the depth to see which depth seemed best. The score seemed best with a depth of 21
-* Classifier 2
+* **Classifier 2**
   * 
-* Classifier 3
+* **Classifier 3**
   * 
 
 ### Model Evaluation
 
-* Classifier 1
+* **Classifier 1**
   * In the end the random forest was inferior to our NN solution. We could have probably gone to a similiar score with more estimator trees, but that would have taken a longer processing time that a Neural Network could achieve.
-* Classifier 2
+* **Classifier 2**
   * 
-* Classifier 3
+* **Classifier 3**
   *
