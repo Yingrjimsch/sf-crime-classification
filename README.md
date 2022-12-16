@@ -1,22 +1,23 @@
 ## San Francisco Crime Classification
- by Noah Lichtencker (lichtnoah), Gabriel Nobel (nobelgab), Rebekka von Wartburg (vonwareb)
+ by Noah Lichtencker (lichtnoah), Gabriel Nobel (yingrjimsch), Rebekka von Wartburg (vonwareb)
 
 ### Introduction
 During twelve weeks, we were shown the basic tools of machine learning in the Machine Learning and
 Data Mining module. In numerous practical courses, we were able to get to know the individual
-"tools" using fictitious examples and also try them out. Now we get the chance to prove our skills
-on real data.
+"tools" by getting hands on fictitious examples. Now we get the chance to prove our skills on real data.
 
 ### Our Challenge
-Our task is to use a dataset of 12 years of crime reports to predict the correct type of crime.
-After we received the task, however, the question then arose very quickly:
+Our task is to use a dataset of 12 years of crime reports to predict the correct type of crime in San Francisco.
+After we received the task, however, the questions then arose very quickly:
 * What types of data are we talking about?
 * What does the data look like?
+* What classifier is the best for this scenario?
+* What data missing data would be usefull?
 
 
 ### Data - Analysis
 
-On the website of  [Kaggle](https://www.kaggle.com/competitions/sf-crime/ "kaggle") and by looking at the content of the data the following information could be obtained:
+On [Kaggle](https://www.kaggle.com/competitions/sf-crime/ "kaggle") and by looking at the content of the data the following information could be obtained:
 
 * **Category** &#10132; Name (Category) of the incident, our Variable to predict as string representation
 * **Dates** &#10132;  Timestamp of the crime incident
@@ -28,6 +29,13 @@ On the website of  [Kaggle](https://www.kaggle.com/competitions/sf-crime/ "kaggl
 * **X** &#10132; Geographical longitude
 * **Y** &#10132; Geographical latitude
 
+After knowing what data is available it was to decide if the data is really necessary.
+* ✔️ Category --> Key data and our "Y" Value to be found out.
+* ✔️ Dates --> can be relevant (e.g. more crime on weekends) //TODO: Plot Crime category per Month
+* ❌ Description --> not decisive enough, hard to categorize, not in the test data
+* ✔️ DayOfWeek --> can be relevant (e.g. more crime on weekends) //TODO: Plot Crime category per day or per weekend
+* ✔️ PdDistrict --> a sort of "clustering" can be very relevant //TODO: Plot Crime category per PdDistrict
+* 
 
 ### Preprocessing
 
@@ -68,9 +76,9 @@ Welche Features zeigen Relevanz; Unausgeglichenheit der Y-daten -> balancieren
 ### Model Selection
 * **Classifier 1**
   * RandomForest
-    * Characteristics: To test the RandomForest for our data we chose a max depth of 27 (for each feature one depth deeper) and a total of 150 trees to go over the data.
-    * Why: Random Forest seemed a good fit to predict and evaluate our data and can have similar results to a Neural Network
-* **Classifier 2** 
+    * Characteristics:
+    * Why:
+* **Classifier 2**
   * Support Vector Machine
     * Characteristics:
     * Why:
@@ -86,7 +94,7 @@ Welche Features zeigen Relevanz; Unausgeglichenheit der Y-daten -> balancieren
 ### Training the Model
 
 * Classifier 1
-  * 27 depth seemed inefficient. so we tried decreasing the depth to see which depth seemed best. The score seemed best with a depth of 
+  * 
 * Classifier 2
   * 
 * Classifier 3
@@ -95,7 +103,7 @@ Welche Features zeigen Relevanz; Unausgeglichenheit der Y-daten -> balancieren
 ### Model Evaluation
 
 * Classifier 1
-  * In the end the random forest was inferior to our NN solution. We could have probably gone to a similiar score with more estimator trees, but that would have taken a longer processing time that a Neural Network could achieve.
+  * 
 * Classifier 2
   * 
 * Classifier 3
