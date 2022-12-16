@@ -94,7 +94,7 @@ Welche Features zeigen Relevanz; Unausgeglichenheit der Y-daten -> balancieren
 ### Training the Model
 
 * Classifier 1
-  * 27 depth seemed inefficient. so we tried decreasing the depth to see which depth seemed best. The score seemed best with a depth of 
+  * 27 depth seemed inefficient. so we tried decreasing the depth to see which depth seemed best. The score seemed best with a depth of 21
 * Classifier 2
   * 
 * Classifier 3
