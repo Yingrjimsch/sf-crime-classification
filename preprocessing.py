@@ -60,7 +60,7 @@ def preprocessing(filename = "train.csv"):
     df_coordinates = np.array(df_coordinates).T
     
     
-    kmeans = KMeans(n_clusters=10, random_state=0).fit(df_coordinates)
+    kmeans = KMeans(n_clusters=5, random_state=0).fit(df_coordinates)
     cluster_assignment = kmeans.predict(df_coordinates) #weist jedem Datenpunkt dem entsprechenden Cluster zu (Entweder Cluster 0,1,2,3)
     
     print("========= End K-Means =============")
@@ -82,7 +82,7 @@ def preprocessing(filename = "train.csv"):
     print("========= Created feature weekend =============")
     
     data_new = { "DayOfWeek": weekdays[0], "Weekend": weekends,
-                 #"CoordinateClusters" : cluster_assignment,
+                 "CoordinateClusters" : cluster_assignment,
                  "X": df_train_origin["X"], "Y": df_train_origin["Y"]}
     
     X_df = pd.DataFrame(data_new)
@@ -169,8 +169,8 @@ def preprocessing(filename = "train.csv"):
     #with pd.option_context('display.max_columns', None):  # more options can be specified also
        # print(X_df)
     
-   #X_df["X"] = df_coordinates.iloc[:,2]
-   # X_df["Y"] = df_coordinates.iloc[:,3]
+    X_df["X_centroids"] = df_coordinates.iloc[:,2]
+    X_df["Y_centroids"] = df_coordinates.iloc[:,3]
     
    # del X_df["CoordinateClusters"]
     
