@@ -117,8 +117,27 @@ Support Vector Machine is a classical classifier and with help of the kernel tri
 
 ### Neural Network
 * Characteristics:
+```
+model = Sequential()
+
+model.add(Input(shape=X_df.shape[1]))
+model.add(Dense(220, activation='relu'))
+model.add(Dropout(rate=0.2))
+model.add(Dense(110, activation='relu'))
+model.add(Dropout(rate=0.2))
+model.add(Dense(220, activation='relu'))
+model.add(Dropout(rate=0.1))
+model.add(Dense(39, activation='softmax'))
+
+model.summary()
+
+```
+* 
+![Cluster Assignment](/img/Model_Summery_NN.JPG)
+* 
 * Training:
 * Evaluation:
+![Cluster Assignment](/img/Learning_Curve_NN.JPG)
 
 ### Others
 
