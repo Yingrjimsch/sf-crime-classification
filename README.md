@@ -117,6 +117,38 @@ Support Vector Machine is a classical classifier and with help of the kernel tri
 
 ### Neural Network
 * Characteristics:
+
+```
+model.compile(loss="sparse_categorical_crossentropy", optimizer="adam")
+```
+
+```
+from keras.callbacks import EarlyStopping, LearningRateScheduler
+early_stopping = EarlyStopping(
+    monitor="val_loss",
+    mode="min",
+    patience=10,
+)
+```
+```
+initial_learning_rate = 0.01
+epochs = 100
+decay = initial_learning_rate / epochs
+
+def lr_time_based_decay(epoch, lr):
+    return lr * 1 / (1 + decay * epoch)
+
+history = model.fit(
+  x_train,
+  y_train,
+  batch_size=200,
+  epochs=100,
+  verbose=1,
+  validation_split=.2,
+  callbacks=[early_stopping, LearningRateScheduler(lr_time_based_decay, verbose=1)]
+)
+
+```
 ```
 model = Sequential()
 
