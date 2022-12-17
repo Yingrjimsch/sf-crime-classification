@@ -2,10 +2,11 @@ import pandas as pd
 import numpy as np
 from sklearn.cluster import KMeans
 
-
-def preprocessing():
+def preprocessing(filename = "train.csv"):
     # Train and test CSV import as Data Frame
-    df_train_origin = pd.read_csv("train.csv")
+    df_train_origin = pd.read_csv(filename)
+    if 'Category' in df_train_origin.columns:
+        df_train_origin.sort_values(by="Category")
     
     #remove all records that are not located in San Francisco
     df_train_origin = df_train_origin[df_train_origin["Y"] < 38]
@@ -16,7 +17,16 @@ def preprocessing():
     #878049 remaining rows
     
     #Factorize data (assign numbers to different categories)
-    Y_df = pd.factorize(df_train_origin["Category"])
+    #print(df_train_origin.columns)
+    #print(df_train_origin["Category"].sort_values(ascending=True))
+    if 'Category' in df_train_origin.columns:
+        #print('wuhu')
+        Y_df = pd.factorize(df_train_origin["Category"])
+    else:
+        Y_df = [0,0]
+    
+    #print(Y_df[1])
+    #print(Y_df)
     weekdays = pd.factorize(df_train_origin["DayOfWeek"])
     #pdDistricts = pd.factorize(df_train_origin["PdDistrict"])
     addresses = []
@@ -90,4 +100,5 @@ def preprocessing():
     
     
     #print(X_df.isnull().sum())
-    return Y_df[0], X_df
+    
+    return Y_df, X_df
