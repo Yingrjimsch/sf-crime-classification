@@ -17,7 +17,8 @@ def preprocessing(filename = "train.csv"):
     print("========= Loaded data and sorted category=============")
     
     #remove all records that are not located in San Francisco
-    df_train_origin = df_train_origin[df_train_origin["Y"] < 38]
+    if 'Category' in df_train_origin.columns:
+        df_train_origin = df_train_origin[df_train_origin["Y"] < 38]
     
     print("========= Removed outliers =============")
     
