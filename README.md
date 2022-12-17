@@ -1,12 +1,12 @@
-## San Francisco Crime Classification
+# San Francisco Crime Classification
  by Noah Lichtencker (lichtnoah), Gabriel Nobel (yingrjimsch), Rebekka von Wartburg (vonwareb)
 
-### Introduction
+## Introduction
 During twelve weeks, we were shown the basic tools of machine learning in the Machine Learning and
 Data Mining module. In numerous practical courses, we were able to get to know the individual
 "tools" by getting hands on fictitious examples. Now we get the chance to prove our skills on real data.
 
-### Our Challenge
+## Our Challenge
 Our task is to use a dataset of 12 years of crime reports to predict the correct type of crime in San Francisco.
 After we received the task, however, the questions then arose very quickly:
 * What types of data are we talking about?
@@ -15,7 +15,7 @@ After we received the task, however, the questions then arose very quickly:
 * What data missing data would be usefull?
 
 
-### Data - Analysis
+## Data - Analysis
 
 From [Kaggle](https://www.kaggle.com/competitions/sf-crime/ "kaggle") and by looking at the content of the data the following information could be obtained:
 
@@ -40,9 +40,9 @@ From [Kaggle](https://www.kaggle.com/competitions/sf-crime/ "kaggle") and by loo
 * **Y** &#10132; Geographical latitude
   * ✔️ USED. Can be relevant (e.g. comparison with PdDistricts)
 
-### Preprocessing
+## Preprocessing
 
-#### Error- Detection
+### Error- Detection
 Now that it was clear what kind of data is needed, outliers or corrupted data had to bee found. This makes the model building much smoother and reduces negative suprises.
 1. Checking for NULL Values &#10132; no NULL values have been found 🥳
 ```
@@ -83,7 +83,7 @@ In << len(df_train_origin[df_train_origin.duplicated()])
 Out >> 2323
 ```
 
-#### Data- Preparing
+### Data- Preparing
 With the acquired knowledge from class that a classifier can only deal with numerical values, we tried to convert the individual features into clever numerical values.
 But what are suitable numerical values? Can features be split up to extract new features?
 Should individual features be combined to obtain the greatest benefit?
@@ -91,7 +91,9 @@ Or could even additional, external features be added?
 
 * Removing description and resolution: Because it is only available in the training data. This makes the features useless for a good test result.
 * Visualtizing the data with different plots (e.g. Bar plots, seaborn heatmaps, Wordcloud): With this inspections could be made to determine which features have the most relevance.
-* Clustering of X and Y Data (KMeans): This helped to be more accurate than the PdDistricts. Ellbow method has not worked because there were too many datapoints. Thanks to internet research it has been decided to take 90 Clusters (for every neighbourhood in the golden city) //TODO: reference
+* Clustering of X and Y Data (KMeans): This helped to be more accurate than the PdDistricts. The Cluster Centroids were used as new X and Y coordinates per data point to normalize as we've learnd it. The ellbow method has not worked because there were too many datapoints. Thanks to internet research it has been decided to take 90 Clusters (for every neighbourhood in the golden city) [1] 
+![Cluster Assignment](/img/Cluster_Assignments.JPG)
+//TODO: reference
 * Split date in year, month, quarter, hour, minute
 * Additional binary feature if weekday or weekend
 * PdDistricts are split into binary columns.
@@ -99,34 +101,28 @@ Or could even additional, external features be added?
 * Added weather data (temperature and weather conditions) in the hope it has correlations with which are "Good Weather" and which are "Bad Weather" crimes.
 
 
-### Model Selection
-* **Classifier 1**
-  * RandomForest
-    * Characteristics: To test the RandomForest for our data we chose a max depth of 27 (for each feature one depth deeper) and a total of 150 trees to go over the data.
-    * Why: Random Forest seemed a good fit to predict and evaluate our data and can have similar results to a Neural Network
-* **Classifier 2**
-  * Support Vector Machine
-    * Characteristics: 
-    * Why: 
-* **Classifier 3**
-  * Neural Network
-    * Characteristics:
-    * Why:
-  
-### Training the Model
+## Models
 
-* **Classifier 1**
-  * 27 depth seemed inefficient. so we tried decreasing the depth to see which depth seemed best. The score seemed best with a depth of 21
-* **Classifier 2**
-  * The Support Vector Machine turned out to be a failure. It processed and evaluated data for two days, in the end we canceled the process. We tried to reduce the data to 5000. 
-* **Classifier 3**
-  * 
+### RandomForest
+Random Forest seemed a good fit to predict and evaluate our data and can have similar results to a Neural Network.
+* Characteristics: To test the RandomForest for our data we chose a max depth of 27 (for each feature one depth deeper) and a total of 150 trees to go over the data.
+* Training: 27 depth seemed inefficient. so we tried decreasing the depth to see which depth returned the best log loss. The score was best with a depth of 21
+* Evaluation: In the end the random forest was inferior to our NN solution. We could have probably gone to a similiar score with more estimator trees, but that would have taken a longer processing time that a Neural Network could achieve.
 
-### Model Evaluation
+### Support Vector Classifier
+Support Vector Machine is a classical classifier and with help of the kernel trick it should allow us to classify complex data.
+* Characteristics: 
+* Training:
+* Evaluation: 
 
-* **Classifier 1**
-  * In the end the random forest was inferior to our NN solution. We could have probably gone to a similiar score with more estimator trees, but that would have taken a longer processing time that a Neural Network could achieve.
-* **Classifier 2**
-  * The Support Vector Machines final loss score was somewhere between 5.0-5.6. In the end we decided to give up on the Model.
-* **Classifier 3**
-  *
+### Neural Network
+* Characteristics:
+* Training:
+* Evaluation:
+
+
+## Results
+
+## Conclusion
+
+[1] [https://de.frwiki.wiki/wiki/Liste_des_quartiers_de_San_Francisco](https://de.frwiki.wiki/wiki/Liste_des_quartiers_de_San_Francisco)
