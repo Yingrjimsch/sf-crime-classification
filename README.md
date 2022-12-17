@@ -94,7 +94,6 @@ Or could even additional, external features be added?
 * Visualtizing the data with different plots (e.g. Bar plots, seaborn heatmaps, Wordcloud): With this inspections could be made to determine which features have the most relevance.
 * Clustering of X and Y Data (KMeans): This helped to be more accurate than the PdDistricts. The Cluster Centroids were used as new X and Y coordinates per data point to normalize as we've learnd it. The ellbow method has not worked because there were too many datapoints. Thanks to internet research it has been decided to take 90 Clusters (for every neighbourhood in the golden city) [1] 
 ![Cluster Assignment](/img/Cluster_Assignments.JPG)
-//TODO: reference
 * Split date in year, month, quarter, hour, minute
 * Additional binary feature if weekday or weekend
 * PdDistricts are split into binary columns.
