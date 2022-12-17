@@ -17,58 +17,86 @@ After we received the task, however, the questions then arose very quickly:
 
 ### Data - Analysis
 
-On [Kaggle](https://www.kaggle.com/competitions/sf-crime/ "kaggle") and by looking at the content of the data the following information could be obtained:
+From [Kaggle](https://www.kaggle.com/competitions/sf-crime/ "kaggle") and by looking at the content of the data the following information could be obtained:
 
 * **Category** &#10132; Name (Category) of the incident, our Variable to predict as string representation
+  * ✔️ USED. Key data and our "Y" Value to be found out.
 * **Dates** &#10132;  Timestamp of the crime incident
+  * ✔️ USED. Can be relevant (e.g. more crime in a specific month)
 * **Descript** &#10132; A description of the incident. (This feature is only available in the training data)
+  * ❌ NOT USED. Not decisive enough, hard to categorize, not in the test data
 * **DayOfWeek** &#10132; the day of the week as string representation
-* **PdDistrict** &#10132; Name of the Police Department District
+  * ✔️ USED. Can be relevant (e.g. more crime on weekends)
+![DayOfWeek/Category Plot](/img/plot_dayofweek_category.png)
+* **PdDistrict** &#10132; Name of the Police Department District)
+  * ✔️ USED. A sort of "clustering" can be very relevant
+![PdDistrict Category Plot](/img/plot_pddistrict_category.png)
 * **Resolution** &#10132; Resolution of the incident. How was the crime solved (This feature is also only available in the training data)
+  * ❌ NOT USED. Not decisive enough, hard to categorize, not in the test data
 * **Address** &#10132; Approximate street address of the incident as string representation
+  * ✔️ USED. Can be relevant (e.g. could tell if inside or outside a building)
 * **X** &#10132; Geographical longitude
+  * ✔️ USED. Can be relevant (e.g. comparison with PdDistricts)
 * **Y** &#10132; Geographical latitude
-
-After knowing what data is available it was to decide if the data is really necessary.
-* ✔️ Category --> Key data and our "Y" Value to be found out.
-* ✔️ Dates --> can be relevant (e.g. more crime on weekends) //TODO: Plot Crime category per Month
-* ❌ Description --> not decisive enough, hard to categorize, not in the test data
-* ✔️ DayOfWeek --> can be relevant (e.g. more crime on weekends) //TODO: Plot Crime category per day or per weekend
-* ✔️ PdDistrict --> a sort of "clustering" can be very relevant //TODO: Plot Crime category per PdDistrict
-* 
+  * ✔️ USED. Can be relevant (e.g. comparison with PdDistricts)
 
 ### Preprocessing
 
 #### Error- Detection
-Now that it was clear what kind of data we were dealing with, we looked for "errors" in the data that could complicate the later model building.
-1. Does it have NULL values in the data?
-``code for null Detection``
-&#10132; obviously it has no NULL values
-2. Does it have outliers in the data?
-``code for outlier Detection``
- &#10132; Since San Francisco is the latitude 37.7562° and the longitude -122.4430° it could be determined very quickly that there are 67 outliers in the training data.
+Now that it was clear what kind of data is needed, outliers or corrupted data had to bee found. This makes the model building much smoother and reduces negative suprises.
+1. Checking for NULL Values &#10132; no NULL values have been found 🥳
+```
+In << df_train_origin.isnull().sum()
+
+Out >> Dates         0
+       Category      0
+       Descript      0
+       DayOfWeek     0
+       PdDistrict    0
+       Resolution    0
+       Address       0
+       X             0
+       Y             0
+
+```
+2. Checking for outliers &#10132; Since San Francisco is the latitude 37.7562° and the longitude -122.4430° it could be determined very quickly that there are `67` outliers in the training data.
 These are very few wrong values in relation to the whole dataset. Therefore we decided to delete them.
 If there had been more data, we could have tried to replace them, for example, with an average value.
-3. Does it have duplicate records in the data
-``code for outlier Detection``
-&#10132; A total of 2323 duplicates were identified in the data. These were also removed from the data set.
+```
+In << ((df_train_origin.X.min(),   df_train_origin.X.max(),
+         df_train_origin.Y.min(), df_train_origin.Y.max()))
+
+Out >> (-122.51364206429, -120.5, 37.7078790224135, 90.0)
+
+In << sum = 0
+for i in df_train_origin.index:
+    if df_train_origin["Y"][i] > 37.9:
+        sum +=1
+
+Out >> 67
+
+```
+3. Checking for duplicate record &#10132; A total of `2323` duplicates were identified in the data, which were also removed from the data set.
+```
+In << len(df_train_origin[df_train_origin.duplicated()])
+
+Out >> 2323
+```
 
 #### Data- Preparing
-Since we learned from class that a classifier can only deal with numerical values, we now tried to convert the individual features into clever numerical values.
+With the acquired knowledge from class that a classifier can only deal with numerical values, we tried to convert the individual features into clever numerical values.
 But what are suitable numerical values? Can features be split up to extract new features?
 Should individual features be combined to obtain the greatest benefit?
-Or could even additional features (e.g. from the web) be added?
+Or could even additional, external features be added?
 
-* We removed the description and resolution, because it is only available in the training data. This makes the features useless for a good test result.
-* We visualtized the data with different plots (e.g. Bar plots, seaborn heatmaps, Wordcloud). With this we could see which features have the most relevance. We could also see faulty Y data and balance them.
-* Clustering of X andv Y Data (KMeans) in different district clusters.
+* Removing description and resolution: Because it is only available in the training data. This makes the features useless for a good test result.
+* Visualtizing the data with different plots (e.g. Bar plots, seaborn heatmaps, Wordcloud): With this inspections could be made to determine which features have the most relevance.
+* Clustering of X and Y Data (KMeans): This helped to be more accurate than the PdDistricts. Ellbow method has not worked because there were too many datapoints. Thanks to internet research it has been decided to take 90 Clusters (for every neighbourhood in the golden city) //TODO: reference
 * Split date in year, month, quarter, hour, minute
 * Additional binary feature if weekday or weekend
 * PdDistricts are split into binary columns.
-* In the USA, addresses get categorized in different blocks or streets. Therefore we split this data binary as well.
-* We added weather data (temperature and weather conditions)
-* Finally we had 22 features to use for training
-* 
+* In the USA, addresses get categorized in different blocks or streets. Therefore the address column was split into a binary value block or not.
+* Added weather data (temperature and weather conditions) in the hope it has correlations with which are "Good Weather" and which are "Bad Weather" crimes.
 
 
 ### Model Selection
