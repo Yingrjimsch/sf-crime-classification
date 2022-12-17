@@ -27,6 +27,7 @@ From [Kaggle](https://www.kaggle.com/competitions/sf-crime/ "kaggle") and by loo
   * ❌ NOT USED. Not decisive enough, hard to categorize, not in the test data
 * **DayOfWeek** &#10132; the day of the week as string representation
   * ✔️ USED. Can be relevant (e.g. more crime on weekends)
+![Weekend](/img/Weekend.JPG)
 ![DayOfWeek/Category Plot](/img/plot_dayofweek_category.png)
 * **PdDistrict** &#10132; Name of the Police Department District)
   * ✔️ USED. A sort of "clustering" can be very relevant
@@ -41,7 +42,7 @@ From [Kaggle](https://www.kaggle.com/competitions/sf-crime/ "kaggle") and by loo
   * ✔️ USED. Can be relevant (e.g. comparison with PdDistricts)
 
 ## Preprocessing
-
+![Crime Categories](/img/Category_Count.JPG)
 ### Error- Detection
 Now that it was clear what kind of data is needed, outliers or corrupted data had to bee found. This makes the model building much smoother and reduces negative suprises.
 1. Checking for NULL Values &#10132; no NULL values have been found 🥳
@@ -119,6 +120,8 @@ Support Vector Machine is a classical classifier and with help of the kernel tri
 * Characteristics:
 * Training:
 * Evaluation:
+
+### Others
 
 
 ## Results
