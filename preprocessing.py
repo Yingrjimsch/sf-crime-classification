@@ -170,6 +170,8 @@ def preprocessing(filename = "train.csv"):
     #with pd.option_context('display.max_columns', None):  # more options can be specified also
        # print(X_df)
     
+   #X_df["X"] = df_coordinates.iloc[:,2]
+   # X_df["Y"] = df_coordinates.iloc[:,3]
     X_df["X_centroids"] = df_coordinates.iloc[:,2]
     X_df["Y_centroids"] = df_coordinates.iloc[:,3]
     
