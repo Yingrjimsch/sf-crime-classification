@@ -87,7 +87,7 @@ def preprocessing(filename = "train.csv"):
                  "X": df_train_origin["X"], "Y": df_train_origin["Y"]}
     
     X_df = pd.DataFrame(data_new)
-    L = ['year', 'month', 'quarter', 'hour', 'date', 'minute']
+    L = ['year', 'month', 'quarter', 'hour', 'date']
     date_gen = (getattr(datetimes.dt, i).rename(i) for i in L)
     X_df = X_df.join(pd.concat(date_gen, axis=1))
     
@@ -155,14 +155,16 @@ def preprocessing(filename = "train.csv"):
     
     df_conditions = pd.unique(X_df["conditions"])
     
-    
+    '''
     for condition in df_conditions:
         condition = str(condition)
         autor = condition
         condition = X_df["conditions"].astype(str).str.contains(condition, case=True)
         #print(day)
         X_df[autor] = condition.astype(int)
-    
+    '''
+    condition = X_df["conditions"].astype(str).str.contains("Rain", case=True)
+    X_df["Condition"] = condition.astype(int)
     
     del X_df["conditions"]
     
@@ -175,8 +177,9 @@ def preprocessing(filename = "train.csv"):
     X_df["X_centroids"] = df_coordinates.iloc[:,2]
     X_df["Y_centroids"] = df_coordinates.iloc[:,3]
     
-   # del X_df["CoordinateClusters"]
-    
+    del X_df["CoordinateClusters"]
+    del X_df["X"]
+    del X_df["Y"]
     #print("========= Added X- and Y- coordinates to X =============")
     
     #print(X_df.isnull().sum())
