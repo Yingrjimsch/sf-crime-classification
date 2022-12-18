@@ -96,10 +96,13 @@ Or could even additional, external features be added?
 * Removing description and resolution: Because it is only available in the training data. This makes the features useless for a good test result.
 * Visualtizing the data with different plots (e.g. Bar plots, seaborn heatmaps, Wordcloud): With this inspections could be made to determine which features have the most relevance.
 * Clustering of X and Y Data (KMeans): This helped to be more accurate than the PdDistricts. The Cluster Centroids were used as new X and Y coordinates per data point to normalize as we've learned it. Thanks to internet research it was first tried to take 90 Clusters (for every neighbourhood in the golden city) [1] 
+
 ![Cluster Assignment](./img/Cluster_Assignments.JPG)
 
 As a result, it was decided to use the elbow method to obtain an appropriate number of centers. A number of 5 clusters was considered optimal.
+
 ![Elbow Method](./img/elbow_method.JPG)
+
 ![Cluster Assignment 2](./img/KMeans.JPG)
 
 After that the new Clustered X and Y coordinates of the centroids where used instead of the original X and Y coordinates.
@@ -174,7 +177,7 @@ model.add(Dense(39, activation='softmax'))
 model.summary()
 
 ```
-* **Training**: Our first shown model above seemed to perform pretty good. The first score we achieved with this was 2.37, which was very promising. After we tried to hand in the predicted results of the model, we realised that the model does not predict in probabilities, even tho we used "softmax" for the final activation and "categorical_crossentropy" as a loss function. After an hour input from Mr. Pascal Sager and even more hours of frustrating tuning, we achieved a new model that sometimes spits out probabilities but with a much worse score. The Problem of the binary output was because of the given class weights and the "One Hot Encoding" of our Y.
+* **Training**: The first achieved score was 2.37, which was very promising. After trying to hand in the predicted results of the model, we realised that the model does not predict in probabilities, even tho "softmax" was used for the final activation and "categorical_crossentropy" as a loss function. After an hour input from Mr. Pascal Sager and even more hours of tuning, we achieved a new model that sometimes spits out probabilities but with a much worse score. The Problem of the binary output was because of the given class weights and the "One Hot Encoding" of our Y.
 
 ```python
 from sklearn.utils import class_weight
@@ -194,11 +197,14 @@ Y =  to_categorical(
 
 ## Results
 
-While the process of data analysing, choosing a model and trying to improve it was enjoyable for our team. The troubleshooting and not understanding certain side effects and details of keras handling was frustrating in the end (see Neural Network training). 
+While the process of data analysing, choosing a model and trying to improve it was enjoyable for our team. The troubleshooting and not understanding certain side effects and details of keras handling was a little bit frustrating in the end (see Neural Network training). 
 
 In the image below you can see our final [Kaggle](https://www.kaggle.com/competitions/sf-crime/ "kaggle") score:
 
 ![Results_Kaggle](./img/Results_Kaggle.png)
+
+## What's next?
+If there were more time, the next steps would be to try to understand our probability problem completely and solve it. After that, we would try to optimize the class weightings, since they might not fit the test data. Finally, we could generate new features, feature combinations or more data, so that the neural network can be trained more optimally. 
 
 ## References
 
