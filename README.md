@@ -1,6 +1,8 @@
 # San Francisco Crime Classification
  by Noah Lichtencker (lichtnoah), Gabriel Nobel (yingrjimsch), Rebekka von Wartburg (vonwareb)
 
+![Overview](./img/Overview_Category.JPG)
+
 ## Introduction
 During twelve weeks, we were shown the basic tools of machine learning in the Machine Learning and
 Data Mining module. In numerous practical courses, we were able to get to know the individual
@@ -9,6 +11,7 @@ Data Mining module. In numerous practical courses, we were able to get to know t
 ## Our Challenge
 Our task is to use a dataset of 12 years of crime reports to predict the correct type of crime in San Francisco.
 After we received the task, however, the questions then arose very quickly:
+
 * What types of data are we talking about?
 * What does the data look like?
 * What classifier is the best for this scenario?
@@ -27,11 +30,11 @@ From [Kaggle](https://www.kaggle.com/competitions/sf-crime/ "kaggle") and by loo
   * ❌ NOT USED. Not decisive enough, hard to categorize, not in the test data
 * **DayOfWeek** &#10132; the day of the week as string representation
   * ✔️ USED. Can be relevant (e.g. more crime on weekends)
-![Weekend](/img/Weekend.JPG)
-![DayOfWeek/Category Plot](/img/plot_dayofweek_category.png)
+  ![Weekend](./img/Weekend.JPG)
+  ![DayOfWeek/Category Plot](./img/plot_dayofweek_category.png)
 * **PdDistrict** &#10132; Name of the Police Department District)
   * ✔️ USED. A sort of "clustering" can be very relevant
-![PdDistrict Category Plot](/img/plot_pddistrict_category.png)
+  ![PdDistrict Category Plot](./img/plot_pddistrict_category.png)
 * **Resolution** &#10132; Resolution of the incident. How was the crime solved (This feature is also only available in the training data)
   * ❌ NOT USED. Not decisive enough, hard to categorize, not in the test data
 * **Address** &#10132; Approximate street address of the incident as string representation
@@ -42,11 +45,11 @@ From [Kaggle](https://www.kaggle.com/competitions/sf-crime/ "kaggle") and by loo
   * ✔️ USED. Can be relevant (e.g. comparison with PdDistricts)
 
 ## Preprocessing
-![Crime Categories](/img/Category_Count.JPG)
+![Crime Categories](./img/Category_Count.JPG)
 ### Error- Detection
 Now that it was clear what kind of data is needed, outliers or corrupted data had to bee found. This makes the model building much smoother and reduces negative suprises.
-1. Checking for NULL Values &#10132; no NULL values have been found 🥳
-```
+1. **Checking for NULL Values &#10132;** no NULL values have been found 🥳
+```python
 In << df_train_origin.isnull().sum()
 
 Out >> Dates         0
@@ -60,10 +63,10 @@ Out >> Dates         0
        Y             0
 
 ```
-2. Checking for outliers &#10132; Since San Francisco is the latitude 37.7562° and the longitude -122.4430° it could be determined very quickly that there are `67` outliers in the training data.
+2. **Checking for outliers &#10132;** Since San Francisco is the latitude 37.7562° and the longitude -122.4430° it could be determined very quickly that there are `67` outliers in the training data.
 These are very few wrong values in relation to the whole dataset. Therefore we decided to delete them.
 If there had been more data, we could have tried to replace them, for example, with an average value.
-```
+```python
 In << ((df_train_origin.X.min(),   df_train_origin.X.max(),
          df_train_origin.Y.min(), df_train_origin.Y.max()))
 
@@ -77,8 +80,8 @@ for i in df_train_origin.index:
 Out >> 67
 
 ```
-3. Checking for duplicate record &#10132; A total of `2323` duplicates were identified in the data, which were also removed from the data set.
-```
+3. **Checking for duplicate record &#10132;** A total of `2323` duplicates were identified in the data, which were also removed from the data set.
+```python
 In << len(df_train_origin[df_train_origin.duplicated()])
 
 Out >> 2323
@@ -92,9 +95,16 @@ Or could even additional, external features be added?
 
 * Removing description and resolution: Because it is only available in the training data. This makes the features useless for a good test result.
 * Visualtizing the data with different plots (e.g. Bar plots, seaborn heatmaps, Wordcloud): With this inspections could be made to determine which features have the most relevance.
-* Clustering of X and Y Data (KMeans): This helped to be more accurate than the PdDistricts. The Cluster Centroids were used as new X and Y coordinates per data point to normalize as we've learnd it. The ellbow method has not worked because there were too many datapoints. Thanks to internet research it has been decided to take 90 Clusters (for every neighbourhood in the golden city) [1] 
-![Cluster Assignment](/img/Cluster_Assignments.JPG)
-* Split date in year, month, quarter, hour, minute
+* Clustering of X and Y Data (KMeans): This helped to be more accurate than the PdDistricts. The Cluster Centroids were used as new X and Y coordinates per data point to normalize as we've learned it. Thanks to internet research it was first tried to take 90 Clusters (for every neighbourhood in the golden city) [1] 
+![Cluster Assignment](./img/Cluster_Assignments.JPG)
+
+After that it was decided to use the elbow method, to get an appropriate amount of centroids.
+![Elbow Method](./img/elbow_method.JPG)
+![Cluster Assignment 2](./img/KMeans.JPG)
+
+After that the new Clustered X and Y coordinates of the centroids where used instead of the original X and Y coordinates.
+
+* Split date in year, month, quarter, hour
 * Additional binary feature if weekday or weekend
 * PdDistricts are split into binary columns.
 * In the USA, addresses get categorized in different blocks or streets. Therefore the address column was split into a binary value block or not.
@@ -105,24 +115,24 @@ Or could even additional, external features be added?
 
 ### RandomForest
 Random Forest seemed a good fit to predict and evaluate our data and can have similar results to a Neural Network.
-* Characteristics: To test the RandomForest for our data we chose a max depth of 27 (for each feature one depth deeper) and a total of 150 trees to go over the data.
-* Training: 27 depth seemed inefficient. so we tried decreasing the depth to see which depth returned the best log loss. The score was best with a depth of 21
-* Evaluation: In the end the random forest was inferior to our NN solution. We could have probably gone to a similiar score with more estimator trees, but that would have taken a longer processing time that a Neural Network could achieve.
+* **Characteristics**: To test the RandomForest for our data we chose a max depth of 27 (for each feature one depth deeper) and a total of 150 trees to go over the data.
+* **Training**: 27 depth seemed inefficient. so we tried decreasing the depth to see which depth returned the best log loss. The score was best with a depth of 21
+* **Evaluation**: In the end the random forest was inferior to our NN solution. We could have probably gone to a similiar score with more estimator trees, but that would have taken a longer processing time that a Neural Network could achieve.
 
 ### Support Vector Classifier
 Support Vector Machine is a classical classifier and with help of the kernel trick it should allow us to classify complex data.
-* Characteristics: 
-* Training:
-* Evaluation: 
+* **Characteristics**: 
+* **Training**:
+* **Evaluation**: 
 
 ### Neural Network
-* Characteristics:
+* **Characteristics**: 
 
-```
+```python
 model.compile(loss="sparse_categorical_crossentropy", optimizer="adam")
 ```
 
-```
+```python
 from keras.callbacks import EarlyStopping, LearningRateScheduler
 early_stopping = EarlyStopping(
     monitor="val_loss",
@@ -130,7 +140,7 @@ early_stopping = EarlyStopping(
     patience=10,
 )
 ```
-```
+```python
 initial_learning_rate = 0.01
 epochs = 100
 decay = initial_learning_rate / epochs
@@ -149,7 +159,7 @@ history = model.fit(
 )
 
 ```
-```
+```python
 model = Sequential()
 
 model.add(Input(shape=X_df.shape[1]))
@@ -164,18 +174,32 @@ model.add(Dense(39, activation='softmax'))
 model.summary()
 
 ```
-* 
-![Cluster Assignment](/img/Model_Summery_NN.JPG)
-* 
-* Training:
-* Evaluation:
-![Cluster Assignment](/img/Learning_Curve_NN.JPG)
+* **Training**: Our first shown model above seemed to perform pretty good. The first score we achieved with this was 2.37, which was very promising. After we tried to hand in the predicted results of the model, we realised that the model does not predict in probabilities, even tho we used "softmax" for the final activation and "categorical_crossentropy" as a loss function. After an hour input from Mr. Pascal Sager and even more hours of frustrating tuning, we achieved a new model that sometimes spits out probabilities but with a much worse score. The Problem of the binary output was because of the given class weights and the "One Hot Encoding" of our Y.
 
-### Others
+```python
+from sklearn.utils import class_weight
+class_weight = class_weight.compute_class_weight(class_weight='balanced', classes=np.unique(Y_df_train[0]), y=Y_df_train[0])
+class_weight = {v: k for v, k in enumerate(class_weight)}
+class_weight
+```
 
+```python
+from keras.utils import to_categorical
+Y =  to_categorical(
+    Y_df_train[0], num_classes=None, dtype='float32'
+)
+```
+
+* **Evaluation**: The neural network seemed to perform and score best in the first training stage. We Uploaded a few times to [Kaggle](https://www.kaggle.com/competitions/sf-crime/ "kaggle") and scored a 3.67 as a final result.
 
 ## Results
 
-## Conclusion
+While the process of data analysing, choosing a model and trying to improve it was enjoyable for our team. The troubleshooting and not understanding certain side effects and details of keras handling was frustrating in the end (see Neural Network training). 
+
+In the image below you can see our final [Kaggle](https://www.kaggle.com/competitions/sf-crime/ "kaggle") score:
+
+![Results_Kaggle](./img/Results_Kaggle.png)
+
+## References
 
 [1] [https://de.frwiki.wiki/wiki/Liste_des_quartiers_de_San_Francisco](https://de.frwiki.wiki/wiki/Liste_des_quartiers_de_San_Francisco)
