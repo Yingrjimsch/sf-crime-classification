@@ -121,9 +121,9 @@ Random Forest seemed a good fit to predict and evaluate our data and can have si
 
 ### Support Vector Classifier
 Support Vector Machine is a classical classifier and with help of the kernel trick it should allow us to classify complex data.
-* **Characteristics**: 
-* **Training**:
-* **Evaluation**: 
+* **Characteristics**: A support vector classifier with the "rbf" kernel trick was chosen. In addition, the class weights were set to balanced and the probability for the log loss was switched on.
+* **Training**: During the training it was noticed that SVC is not suitable for large data sets, because the training complexity is very high. Most of the data that were successfully trained were *5000* with a log loss of *~2.95*.
+* **Evaluation**: It quickly became clear that an SVC was not capable of handling this task. Not only because the training takes so long but also because one would have to predict in batches to be able to evaluate the test data.
 
 ### Neural Network
 * **Characteristics**: 
