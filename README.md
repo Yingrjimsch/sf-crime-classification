@@ -162,22 +162,38 @@ history = model.fit(
 )
 
 ```
+
+* **Training**: The first achieved score was 2.37, which was very promising. After trying to hand in the predicted results of the model, we realised that the model does not predict in probabilities, even tho "softmax" was used for the final activation and "categorical_crossentropy" as a loss function. After an hour input from Mr. Pascal Sager and even more hours of tuning, we achieved a new model that sometimes spits out probabilities but with a much worse score. The Problem of the binary output was because of the given class weights and the "One Hot Encoding" of our Y.
+
+
 ```python
+from keras.models import Sequential
+from keras.layers import Input, Flatten, Dense, Dropout, BatchNormalization
+
 model = Sequential()
 
-model.add(Input(shape=X_df.shape[1]))
-model.add(Dense(220, activation='relu'))
+#220, 110, 0.2
+model.add(Input(shape=X_df_train.shape[1]))
+model.add(Dense(512, activation='relu'))
+model.add(BatchNormalization())
+model.add(Dropout(rate=0.5))
+model.add(BatchNormalization())
+model.add(Dense(256, activation='relu'))
+model.add(BatchNormalization())
+model.add(Dropout(rate=0.5))
+model.add(BatchNormalization())
+model.add(Dense(128, activation='relu'))
 model.add(Dropout(rate=0.2))
-model.add(Dense(110, activation='relu'))
-model.add(Dropout(rate=0.2))
-model.add(Dense(220, activation='relu'))
-model.add(Dropout(rate=0.1))
+model.add(BatchNormalization())
+#model.add(Dropout(rate=0.2))
+#model.add(Dense(55, activation='relu'))
+#model.add(Dropout(rate=0.1))
 model.add(Dense(39, activation='softmax'))
 
 model.summary()
 
 ```
-* **Training**: The first achieved score was 2.37, which was very promising. After trying to hand in the predicted results of the model, we realised that the model does not predict in probabilities, even tho "softmax" was used for the final activation and "categorical_crossentropy" as a loss function. After an hour input from Mr. Pascal Sager and even more hours of tuning, we achieved a new model that sometimes spits out probabilities but with a much worse score. The Problem of the binary output was because of the given class weights and the "One Hot Encoding" of our Y.
+
 
 ```python
 from sklearn.utils import class_weight
