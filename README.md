@@ -98,7 +98,7 @@ Or could even additional, external features be added?
 * Clustering of X and Y Data (KMeans): This helped to be more accurate than the PdDistricts. The Cluster Centroids were used as new X and Y coordinates per data point to normalize as we've learned it. Thanks to internet research it was first tried to take 90 Clusters (for every neighbourhood in the golden city) [1] 
 ![Cluster Assignment](./img/Cluster_Assignments.JPG)
 
-After that it was decided to use the elbow method, to get an appropriate amount of centroids.
+As a result, it was decided to use the elbow method to obtain an appropriate number of centers. A number of 5 clusters was considered optimal.
 ![Elbow Method](./img/elbow_method.JPG)
 ![Cluster Assignment 2](./img/KMeans.JPG)
 
